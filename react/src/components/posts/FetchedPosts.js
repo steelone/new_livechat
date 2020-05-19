@@ -1,8 +1,8 @@
 import React from 'react'
 import Post from './Post'
 import { useDispatch, useSelector } from 'react-redux'
-import { fetchPosts } from './redux/actions'
-import { Loader } from './Loader'
+import { fetchPosts } from '../redux/actions'
+import { Loader } from '../Loader'
 
 
 export default () => {
@@ -13,12 +13,12 @@ export default () => {
   if (loading) {
     return <Loader />
   }
-  
+
   if (!posts.length) {
     return <button
       className="btn btn-primary"
       onClick={() => dispatch(fetchPosts())}
-      >Download</button>
+    >Download</button>
   }
-  return posts.map(post => <Post post={post} key={post.id}/>)
+  return posts.map(post => <Post post={post} key={post.id} />)
 }

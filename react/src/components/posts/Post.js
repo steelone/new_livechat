@@ -1,6 +1,6 @@
 import React from 'react'
 
-export default ({post}) => {
+export default ({ post }) => {
   return (
     <div className='card'>
       <div className='card-body'>
@@ -9,7 +9,6 @@ export default ({post}) => {
           Title here {post.title}
         </h5>
       </div>
-
     </div>
   )
 }

@@ -1,7 +1,7 @@
 import React from 'react'
-import {connect} from 'react-redux'
-import { createPost, showAlert } from './redux/actions'
-import { Alert } from './Alert'
+import { connect } from 'react-redux'
+import { createPost, showAlert } from '../redux/actions'
+import { Alert } from '../Alert'
 
 
 class PostForm extends React.Component {
@@ -15,7 +15,7 @@ class PostForm extends React.Component {
 	submitHandler = event => {
 		event.preventDefault()
 		// console.log(this.state.title)
-		const {title} = this.state
+		const { title } = this.state
 
 		if (!title.trim()) {
 			return this.props.showAlert(`Field shouldn't be empty!`)
@@ -26,18 +26,20 @@ class PostForm extends React.Component {
 		}
 		console.log(newPost)
 		this.props.createPost(newPost)
-		this.setState({title: ''})
+		this.setState({ title: '' })
 	}
 	changeInputHandler = event => {
 		event.persist()
-		this.setState(prev => ({...prev, ...{
-			[event.target.name]: event.target.value
-		}}))
+		this.setState(prev => ({
+			...prev, ...{
+				[event.target.name]: event.target.value
+			}
+		}))
 	}
 	render() {
 		return (
 			<form onSubmit={this.submitHandler}>
-								{this.props.alert && <Alert message={this.props.alert}/>}
+				{this.props.alert && <Alert message={this.props.alert} />}
 
 				<div className="form-group">
 					<label htmlFor="title">Title</label>
