@@ -1,18 +1,19 @@
-import React from 'react'
+import React, { PureComponent } from 'react'
 import { connect } from 'react-redux'
 import { createPost, showAlert } from '../redux/actions'
-import { Alert } from '../Alert'
+import { Error } from '../Error'
+import { OutlinedInput, Button, FormControl, InputLabel, Grid } from '@material-ui/core';
 
-
-class PostForm extends React.Component {
+class PostForm extends PureComponent {
 	constructor(props) {
 		super(props)
-
 		this.state = {
 			title: ''
 		}
+		this.submitHandler = this.submitHandler.bind(this)
+		this.changeInputHandler = this.changeInputHandler.bind(this)
 	}
-	submitHandler = event => {
+	submitHandler(event) {
 		event.preventDefault()
 		// console.log(this.state.title)
 		const { title } = this.state
@@ -28,31 +29,31 @@ class PostForm extends React.Component {
 		this.props.createPost(newPost)
 		this.setState({ title: '' })
 	}
-	changeInputHandler = event => {
-		event.persist()
-		this.setState(prev => ({
-			...prev, ...{
-				[event.target.name]: event.target.value
-			}
-		}))
+	changeInputHandler(event) {
+		console.log('event.target.value', event.target.value)
+		// event.persist()
+		const { target } = event;
+		const { value } = target;
+		const { name } = target;
+
+		this.setState({ [name]: value });
 	}
 	render() {
+		const { state } = this;
 		return (
 			<form onSubmit={this.submitHandler}>
-				{this.props.alert && <Alert message={this.props.alert} />}
-
-				<div className="form-group">
-					<label htmlFor="title">Title</label>
-					<input
-						type="text"
-						className="form-control"
-						id="title"
-						value={this.state.title}
-						name='title'
-						onChange={this.changeInputHandler}
-					/>
-				</div>
-				<button className='btn btn-success' type='submit'>Create</button>
+				{this.props.alert && <Error message={this.props.alert} />}
+				<Grid container direction="column" justify="flex-start" spacing={1}>
+					<Grid item xs>
+						<FormControl variant="outlined">
+							<InputLabel htmlFor="component-outlined">Title</InputLabel>
+							<OutlinedInput id="component-outlined" name='title' value={state.title} onChange={this.changeInputHandler} label="Title" />
+						</FormControl>
+					</Grid>
+					<Grid item xs>
+						<Button variant="contained" color="primary" type='submit'>Create</Button>
+					</Grid>
+				</Grid>
 			</form>
 		)
 	}

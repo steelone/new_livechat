@@ -1,8 +1,7 @@
-import React, { PureComponent } from 'react';
-import Button from '@material-ui/core/Button';
+import React, { PureComponent } from "react";
+import Button from "@material-ui/core/Button";
 
 class About extends PureComponent {
-
   render() {
     return (
       <div>
@@ -14,12 +13,11 @@ class About extends PureComponent {
         <p>Author: Denisenko Viacheslav</p>
 
         <Button variant="contained" color="primary">
-          Material Button
+          Just Material Button
         </Button>
       </div>
     );
   }
-
 }
 
 export default About;

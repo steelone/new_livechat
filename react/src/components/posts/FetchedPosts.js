@@ -2,6 +2,7 @@ import React from 'react'
 import Post from './Post'
 import { useDispatch, useSelector } from 'react-redux'
 import { fetchPosts } from '../redux/actions'
+import { Button } from '@material-ui/core'
 import { Loader } from '../Loader'
 
 
@@ -15,10 +16,11 @@ export default () => {
   }
 
   if (!posts.length) {
-    return <button
-      className="btn btn-primary"
+    return <Button
+      color="primary"
+      variant="contained"
       onClick={() => dispatch(fetchPosts())}
-    >Download</button>
+    >Download</Button>
   }
   return posts.map(post => <Post post={post} key={post.id} />)
 }
