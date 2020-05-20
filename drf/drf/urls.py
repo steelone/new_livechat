@@ -20,4 +20,6 @@ urlpatterns = [
         views.CustomUserUpdateView.as_view(), name='user_update'),
     url(r'^users/update-partial/(?P<pk>\d+)/$',
         views.CustomUserPartialUpdateView.as_view(), name='user_partial_update'),
+
+    path('chat/', include('chat.api.urls', namespace='chat')),
 ]
