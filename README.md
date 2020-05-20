@@ -1,9 +1,12 @@
-### run
+### run backend DRF
 
+```bash
 pipenv shell
 python drf/manage.py runserver
+```
 
-### runfront
+### run front React
 
-cd react
-npm start
+```bash
+cd react && npm start
+```

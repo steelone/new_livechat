@@ -12,7 +12,9 @@ router.register(r'chats', views.ChatViewSet)
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include(router.urls)),
-
+    url(r'^rest-auth/', include('rest_auth.urls')),
+    url(r'^rest-auth/', include('rest_auth.urls')),
+    url(r'^rest-auth/registration/', include('rest_auth.registration.urls')),
 
     url(r'^users/update/(?P<pk>\d+)/$',
         views.CustomUserUpdateView.as_view(), name='user_update'),

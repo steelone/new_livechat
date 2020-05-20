@@ -5,6 +5,7 @@ from .filters import ChatFilter
 from rest_framework import viewsets
 from rest_framework.mixins import UpdateModelMixin
 from rest_framework.generics import GenericAPIView
+from rest_framework.permissions import IsAuthenticatedOrReadOnly
 
 
 class ChatViewSet(viewsets.ModelViewSet):
@@ -19,6 +20,7 @@ class CustomUserViewSet(viewsets.ModelViewSet):
     """
     queryset = CustomUser.objects.all()
     serializer_class = CustomUserSerializer
+    permission_classes = [IsAuthenticatedOrReadOnly]
 
 
 class CustomUserUpdateView(GenericAPIView, UpdateModelMixin):
