@@ -1,17 +1,10 @@
 from django.shortcuts import render
 from .models import Chat, CustomUser
-from .serializers import CustomUserSerializer, ChatSerializer
-from .filters import ChatFilter
+from .serializers import CustomUserSerializer
 from rest_framework import viewsets
 from rest_framework.mixins import UpdateModelMixin
 from rest_framework.generics import GenericAPIView
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
-
-
-class ChatViewSet(viewsets.ModelViewSet):
-    serializer_class = ChatSerializer
-    queryset = Chat.objects.all()
-    filter_class = ChatFilter
 
 
 class CustomUserViewSet(viewsets.ModelViewSet):

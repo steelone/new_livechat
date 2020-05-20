@@ -1,12 +1,6 @@
 from rest_framework import serializers
 
-from .models import Chat, CustomUser
-
-
-class ChatSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Chat
-        fields = ('__all__')
+from .models import CustomUser
 
 
 class CustomUserSerializer(serializers.HyperlinkedModelSerializer):

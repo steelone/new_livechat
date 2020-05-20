@@ -7,6 +7,9 @@ name = "pypi"
 Django = "*"
 djangorestframework = "*"
 django-filter = "*"
+django-cors-headers = "*"
+channels = "*"
+channels-redis = "*"
 
 [dev-packages]
 

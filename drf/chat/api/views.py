@@ -1,17 +1,19 @@
+from ..models import Chat, Contact
+from django.shortcuts import render
+from .serializers import ChatSerializer
+from chat.filters import ChatFilter
 from django.contrib.auth import get_user_model
 from django.shortcuts import get_object_or_404
 from rest_framework import permissions
-from rest_framework.generics import (
-    ListAPIView,
-    RetrieveAPIView,
-    CreateAPIView,
-    DestroyAPIView,
-    UpdateAPIView
-)
-from chat.models import Chat, Contact
-from .serializers import ChatSerializer
+from rest_framework.generics import ListAPIView, RetrieveAPIView,\
+    CreateAPIView, DestroyAPIView, UpdateAPIView
 
 User = get_user_model()
+
+
+def get_last_10_messages(chatId):
+    chat = get_object_or_404(Chat, id=chatId)
+    return chat.messages.order_by('-timestamp').all()[:10]
 
 
 def get_user_contact(username):
@@ -23,6 +25,7 @@ def get_user_contact(username):
 class ChatListView(ListAPIView):
     serializer_class = ChatSerializer
     permission_classes = (permissions.AllowAny, )
+    filter_class = ChatFilter
 
     def get_queryset(self):
         queryset = Chat.objects.all()

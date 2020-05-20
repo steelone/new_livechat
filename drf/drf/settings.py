@@ -1,5 +1,6 @@
 import os
 
+from corsheaders.defaults import default_methods
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # Quick-start development settings - unsuitable for production
@@ -12,6 +13,8 @@ SECRET_KEY = 'h=(0$$!gjzy9b_90faqsru@p4v5%1j$oq2yr+i0^atq4zl77=='
 DEBUG = True
 
 ALLOWED_HOSTS = []
+CORS_ORIGIN_ALLOW_ALL = True
+CORS_ALLOW_CREDENTIALS = True
 
 # Application definition
 INSTALLED_APPS = [
@@ -22,6 +25,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
+    'corsheaders',
+    'channels',
     'rest_framework.authtoken',
     'rest_auth',
     'django.contrib.sites',
@@ -32,7 +37,7 @@ INSTALLED_APPS = [
     'allauth.socialaccount.providers.facebook',
     'allauth.socialaccount.providers.twitter',
     'django_filters',
-    'chat',
+    'chat'
 ]
 
 SITE_ID = 1
@@ -56,6 +61,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
 ]
 
 ROOT_URLCONF = 'drf.urls'
@@ -78,10 +84,20 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'drf.wsgi.application'
 
+# Django channels for WebSocket
+ASGI_APPLICATION = 'drf.routing.application'
+
+CHANNEL_LAYERS = {
+    'default': {
+        'BACKEND': 'channels_redis.core.RedisChannelLayer',
+        'CONFIG': {
+            "hosts": [('127.0.0.1', 6379)],
+        },
+    },
+}
+##################
 
 # Database
-# https://docs.djangoproject.com/en/3.0/ref/settings/#databases
-
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
