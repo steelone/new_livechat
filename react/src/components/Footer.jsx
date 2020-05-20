@@ -1,5 +1,10 @@
 import React from "react";
-import { BottomNavigation, BottomNavigationAction } from "@material-ui/core";
+import {
+  BottomNavigation,
+  BottomNavigationAction,
+  makeStyles,
+  Container,
+} from "@material-ui/core";
 import Box from "@material-ui/core/Box";
 import RestoreIcon from "@material-ui/icons/Restore";
 import FavoriteIcon from "@material-ui/icons/Favorite";
@@ -8,12 +13,23 @@ import * as actions from "./store/chat/actions/auth";
 import { connect } from "react-redux";
 import WebSocketInstance from "../websocket";
 
+const useStyles = makeStyles((theme) => ({
+  footer: {
+    padding: theme.spacing(3, 2),
+    marginTop: "auto",
+    backgroundColor:
+      theme.palette.type === "light"
+        ? theme.palette.grey[200]
+        : theme.palette.grey[800],
+  },
+}));
 const Footer = () => {
+  const classes = useStyles();
   const [value, setValue] = React.useState("busy");
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
-    // HERE OPEN AND CONNECT CHAT
+    // TODO HERE OPEN AND CONNECT CHAT
     if (newValue === "available") {
       WebSocketInstance.connect();
     } else {
@@ -21,8 +37,8 @@ const Footer = () => {
     }
   };
   return (
-    <div>
-      <Box pt={10}>
+    <footer className={classes.footer}>
+      <Container maxWidth="sm">
         <BottomNavigation value={value} onChange={handleChange}>
           <BottomNavigationAction
             label="I'm busy"
@@ -40,8 +56,8 @@ const Footer = () => {
             icon={<LocationOnIcon />}
           />
         </BottomNavigation>
-      </Box>
-    </div>
+      </Container>
+    </footer>
   );
 };
 
