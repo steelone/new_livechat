@@ -1,7 +1,7 @@
 import React from 'react'
 import Post from './Post'
 import { useDispatch, useSelector } from 'react-redux'
-import { fetchPosts } from '../redux/actions'
+import { fetchPosts } from '../store/posts/actions'
 import { Button } from '@material-ui/core'
 import { Loader } from '../Loader'
 

@@ -4,11 +4,12 @@ import App from "./App";
 import * as serviceWorker from "./serviceWorker";
 import { compose, createStore, applyMiddleware } from "redux";
 import { Provider } from "react-redux";
-import { rootReducer } from "./components/redux/rootReducer";
 import thunk from "redux-thunk";
-import { forbiddenWordsMiddleware } from "./components/redux/middleware";
 import createSagaMiddleware from "redux-saga";
-import { sagaWatcher } from "./components/redux/sagas";
+import { rootReducer } from "./components/store/posts/rootReducer";
+import { forbiddenWordsMiddleware } from "./components/store/posts/middleware";
+import { sagaWatcher } from "./components/store/posts/sagas";
+
 
 const saga = createSagaMiddleware();
 

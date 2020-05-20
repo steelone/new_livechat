@@ -1,6 +1,7 @@
 class WebSocketService {
   static instance = null;
   callbacks = {};
+  statusStop = false
 
   static getInstance() {
     if (!WebSocketService.instance) {
@@ -8,12 +9,17 @@ class WebSocketService {
     }
     return WebSocketService.instance;
   }
-
   constructor() {
     this.socketRef = null;
   }
 
+  disconnect() {
+    this.statusStop = true
+    console.log('disconnect...')
+  }
+
   connect() {
+    this.statusStop = false
     const path = 'ws://127.0.0.1:8000/ws/chat/test/';
     this.socketRef = new WebSocket(path);
     this.socketRef.onopen = () => {
@@ -29,8 +35,10 @@ class WebSocketService {
       console.log(e.message);
     };
     this.socketRef.onclose = () => {
-      console.log("WebSocket closed let's reopen");
-      this.connect();
+      if (!this.statusStop) {
+        console.log("WebSocket closed let's reopen");
+        this.connect();
+      }
     };
   }
 

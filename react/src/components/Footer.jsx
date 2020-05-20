@@ -4,7 +4,9 @@ import Box from "@material-ui/core/Box";
 import RestoreIcon from "@material-ui/icons/Restore";
 import FavoriteIcon from "@material-ui/icons/Favorite";
 import LocationOnIcon from "@material-ui/icons/LocationOn";
-import { NavLink } from "react-router-dom";
+import * as actions from "./store/chat/actions/auth";
+import { connect } from "react-redux";
+import WebSocketInstance from "../websocket";
 
 const Footer = () => {
   const [value, setValue] = React.useState("busy");
@@ -12,6 +14,11 @@ const Footer = () => {
   const handleChange = (event, newValue) => {
     setValue(newValue);
     // HERE OPEN AND CONNECT CHAT
+    if (newValue === "available") {
+      WebSocketInstance.connect();
+    } else {
+      WebSocketInstance.disconnect();
+    }
   };
   return (
     <div>
@@ -38,4 +45,10 @@ const Footer = () => {
   );
 };
 
-export default Footer;
+const mapDispatchToProps = (dispatch) => {
+  return {
+    onTryAutoSignup: () => dispatch(actions.authCheckState()),
+  };
+};
+
+export default connect(null, mapDispatchToProps)(Footer);
