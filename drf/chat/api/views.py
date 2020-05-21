@@ -1,12 +1,13 @@
 from ..models import Chat, Contact
 from django.shortcuts import render
 from .serializers import ChatSerializer
-from chat.filters import ChatFilter
+from .filters import ChatFilter
 from django.contrib.auth import get_user_model
 from django.shortcuts import get_object_or_404
 from rest_framework import permissions
 from rest_framework.generics import ListAPIView, RetrieveAPIView,\
     CreateAPIView, DestroyAPIView, UpdateAPIView
+from django.db.models import Count
 
 User = get_user_model()
 
@@ -32,6 +33,9 @@ class ChatListView(ListAPIView):
         username = self.request.query_params.get('username', None)
         if username is not None:
             contact = get_user_contact(username)
+            q_chats = Chat.objects.annotate(participants_num=Count(
+                'participants')).exclude(participants__contact__available__exact=False)
+            print('q_chats:', q_chats)
             queryset = contact.chats.all()
         return queryset
 

@@ -1,10 +1,18 @@
 from django.shortcuts import render
-from .models import Chat, CustomUser
-from .serializers import CustomUserSerializer
+from .models import CustomUser, Contact
+from .serializers import CustomUserSerializer, ContactSerializer
 from rest_framework import viewsets
 from rest_framework.mixins import UpdateModelMixin
 from rest_framework.generics import GenericAPIView
-from rest_framework.permissions import IsAuthenticatedOrReadOnly
+from rest_framework.permissions import IsAuthenticatedOrReadOnly, IsAuthenticated
+from rest_framework.generics import UpdateAPIView
+from .permissions import UserPermissions
+
+
+class ContactUpdateView(UpdateAPIView):
+    queryset = Contact.objects.all()
+    serializer_class = ContactSerializer
+    permission_classes = (IsAuthenticated, UserPermissions)
 
 
 class CustomUserViewSet(viewsets.ModelViewSet):
@@ -13,7 +21,7 @@ class CustomUserViewSet(viewsets.ModelViewSet):
     """
     queryset = CustomUser.objects.all()
     serializer_class = CustomUserSerializer
-    permission_classes = [IsAuthenticatedOrReadOnly]
+    permission_classes = [IsAuthenticated]
 
 
 class CustomUserUpdateView(GenericAPIView, UpdateModelMixin):

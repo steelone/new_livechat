@@ -6,9 +6,9 @@ import { compose, createStore, applyMiddleware } from "redux";
 import { Provider } from "react-redux";
 import thunk from "redux-thunk";
 import createSagaMiddleware from "redux-saga";
-import { rootReducer } from "./components/store/posts/rootReducer";
-import { forbiddenWordsMiddleware } from "./components/store/posts/middleware";
-import { sagaWatcher } from "./components/store/posts/sagas";
+import { rootReducer } from "./store/reducers/rootReducer";
+import { forbiddenWordsMiddleware } from "./store/actions/middleware";
+import { sagaWatcher } from "./store/sagas/sagas";
 
 
 const saga = createSagaMiddleware();

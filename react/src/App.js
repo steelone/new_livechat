@@ -1,9 +1,12 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import Header from "./components/Header"
 import Footer from './components/Footer';
 import Content from './components/Content';
 import { BrowserRouter } from 'react-router-dom';
 import { makeStyles, Container } from "@material-ui/core";
+import Auth from './components/auth/Auth';
+import { authCheckState } from './store/actions/auth';
 
 const useStyles = makeStyles((theme) => ({
   main: {
@@ -14,8 +17,15 @@ const useStyles = makeStyles((theme) => ({
 }));
 function App() {
   const classes = useStyles();
+  const dispatch = useDispatch();
 
-  return (
+
+  useEffect(() => {
+    dispatch(authCheckState());
+  }, [dispatch]);
+
+  const isLoggedIn = useSelector(state => state.auth.logged_in);
+  const app = (
     <Container className={classes.main}>
       <BrowserRouter>
         <Header />
@@ -23,6 +33,14 @@ function App() {
         <Footer />
       </BrowserRouter>
     </Container>
+  )
+
+  return (
+    <>
+      {isLoggedIn && app}
+      {!isLoggedIn && <Auth />}
+      {/* {app} */}
+    </>
   );
 }
 

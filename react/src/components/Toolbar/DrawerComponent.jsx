@@ -8,9 +8,11 @@ import {
   ListItemText,
   Divider,
 } from "@material-ui/core";
-import InboxIcon from "@material-ui/icons/MoveToInbox";
 import MailIcon from "@material-ui/icons/Mail";
 import { NavLink } from "react-router-dom";
+import HomeIcon from "@material-ui/icons/Home";
+import InfoIcon from "@material-ui/icons/Info";
+import ChatIcon from "@material-ui/icons/Chat";
 
 const styles = (theme) => ({
   list: {
@@ -40,7 +42,7 @@ class DrawerComponent extends React.Component {
           <NavLink to="/">
             <ListItem button>
               <ListItemIcon>
-                <InboxIcon />
+                <HomeIcon />
               </ListItemIcon>
               <ListItemText primary={"Home"} />
             </ListItem>
@@ -53,13 +55,21 @@ class DrawerComponent extends React.Component {
               <ListItemText primary={"Posts"} />
             </ListItem>
           </NavLink>
+          <NavLink to="/chat/1">
+            <ListItem button>
+              <ListItemIcon>
+                <ChatIcon />
+              </ListItemIcon>
+              <ListItemText primary={"Test ChatPage"} />
+            </ListItem>
+          </NavLink>
         </List>
         <Divider />
         <List>
           <NavLink to="/about/">
             <ListItem button>
               <ListItemIcon>
-                <InboxIcon />
+                <InfoIcon />
               </ListItemIcon>
               <ListItemText primary={"About"} />
             </ListItem>

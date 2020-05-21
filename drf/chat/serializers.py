@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from .models import CustomUser
+from .models import CustomUser, Contact
 
 
 class CustomUserSerializer(serializers.HyperlinkedModelSerializer):
@@ -26,3 +26,9 @@ class CustomUserSerializer(serializers.HyperlinkedModelSerializer):
             user.set_password(validated_data['password'])
             user.save()
         return user
+
+
+class ContactSerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = Contact
+        fields = ('available')

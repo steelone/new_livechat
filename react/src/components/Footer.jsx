@@ -5,11 +5,10 @@ import {
   makeStyles,
   Container,
 } from "@material-ui/core";
-import Box from "@material-ui/core/Box";
 import RestoreIcon from "@material-ui/icons/Restore";
 import FavoriteIcon from "@material-ui/icons/Favorite";
 import LocationOnIcon from "@material-ui/icons/LocationOn";
-import * as actions from "./store/chat/actions/auth";
+import * as actions from "../store/actions/auth";
 import { connect } from "react-redux";
 import WebSocketInstance from "../websocket";
 

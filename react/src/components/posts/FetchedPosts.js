@@ -1,9 +1,9 @@
 import React from 'react'
 import Post from './Post'
 import { useDispatch, useSelector } from 'react-redux'
-import { fetchPosts } from '../store/posts/actions'
+import { fetchPosts } from '../../store/actions/posts'
 import { Button } from '@material-ui/core'
-import { Loader } from '../Loader'
+import Loader from '../Loader'
 
 
 export default () => {
@@ -22,5 +22,11 @@ export default () => {
       onClick={() => dispatch(fetchPosts())}
     >Download</Button>
   }
-  return posts.map(post => <Post post={post} key={post.id} />)
+  return posts.map(post => (
+    <div style={{ paddingBottom: 20 }}>
+      <Post post={post} key={post.id} />
+    </div>
+  )
+
+  )
 }
