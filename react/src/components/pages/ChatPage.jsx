@@ -92,6 +92,7 @@ class ChatPage extends React.Component {
     const messageObject = {
       from: this.props.username,
       content: this.state.message,
+      chatID: this.props.match.params.chatID,
     };
     WebSocketInstance.newChatMessage(messageObject);
     this.setState({ message: "" });

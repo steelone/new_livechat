@@ -17,10 +17,13 @@ def get_last_10_messages(chatID):
     return chat.messages.order_by('-timestamp').all()[:10]
 
 
+def get_current_chat(chatID):
+    return get_object_or_404(Chat, id=chatID)
+
+
 def get_user_contact(username):
     user = get_object_or_404(User, username=username)
-    contact = get_object_or_404(Contact, user=user)
-    return contact
+    return get_object_or_404(Contact, user=user)
 
 
 class ChatListView(ListAPIView):

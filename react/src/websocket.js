@@ -62,7 +62,12 @@ class WebSocketService {
   }
 
   newChatMessage(message) {
-    this.sendMessage({ command: 'new_message', from: message.from, message: message.content });
+    this.sendMessage({
+      command: 'new_message',
+      from: message.from,
+      message: message.content,
+      chatID: message.chatID
+    });
   }
 
   addCallbacks(messagesCallback, newMessageCallback) {
