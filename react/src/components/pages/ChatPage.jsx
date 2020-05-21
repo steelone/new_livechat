@@ -98,9 +98,8 @@ class ChatPage extends React.Component {
   };
 
   renderMessages = (messages) => {
-    const currentUser = this.props.username;
     return messages.map((item, i, arr) => (
-      <Message key={item.id} arr={arr} item={item} currentUser={currentUser} />
+      <Message key={item.id} arr={arr} item={item} />
     ));
   };
 

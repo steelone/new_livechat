@@ -11,10 +11,11 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Message = (item, i, arr, currentUser) => {
+const Message = (item, i, arr) => {
   const classes = useStyles();
-  // console.log("message ===== ", item);
-  // console.log("item ===== ", item.item.content);
+  console.log("message ===== ", item);
+  console.log("item ===== ", item.item.content);
+  console.log("author", item.item.author);
   // const renderTimestamp = (timestamp) => {
   //   let prefix = "";
   //   const timeDiff = Math.round(
@@ -46,10 +47,10 @@ const Message = (item, i, arr, currentUser) => {
               alt="Cindy Baker"
               src="https://assets.dryicons.com/uploads/icon/svg/5598/cfee5087-8773-4fb3-ac5e-63372d889b1f.svg"
             />
+            <Typography noWrap>{item.item.author}</Typography>
           </Grid>
           <Grid item xs={8}>
             <Typography noWrap>{item.item.content}</Typography>
-            <Typography noWrap>{currentUser}</Typography>
             {/* <Typography noWrap>{item.timestamp}</Typography> */}
           </Grid>
         </Grid>
