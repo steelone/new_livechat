@@ -32,44 +32,42 @@ class SignUp extends React.Component {
       <div>
         {this.props.loading ? (
           <Loader />
-        ) : this.props.logged_in ? (
-          <button onClick={() => this.props.logout()}>
-            <span>Logout</span>
-          </button>
         ) : (
-          <div>
-            <form method="POST" onSubmit={this.authenticate}>
-              {this.state.loginForm ? (
-                <div>
-                  <input name="username" type="text" placeholder="username" />
-                  <input
-                    name="password"
-                    type="password"
-                    placeholder="password"
-                  />
-                </div>
-              ) : (
-                <div>
-                  <input name="username" type="text" placeholder="username" />
-                  <input name="email" type="email" placeholder="email" />
-                  <input
-                    name="password"
-                    type="password"
-                    placeholder="password"
-                  />
-                  <input
-                    name="password2"
-                    type="password"
-                    placeholder="password confirm"
-                  />
-                </div>
-              )}
+          !this.props.logged_in && (
+            <div>
+              <form method="POST" onSubmit={this.authenticate}>
+                {this.state.loginForm ? (
+                  <div>
+                    <input name="username" type="text" placeholder="username" />
+                    <input
+                      name="password"
+                      type="password"
+                      placeholder="password"
+                    />
+                  </div>
+                ) : (
+                  <div>
+                    <input name="username" type="text" placeholder="username" />
+                    <input name="email" type="email" placeholder="email" />
+                    <input
+                      name="password"
+                      type="password"
+                      placeholder="password"
+                    />
+                    <input
+                      name="password2"
+                      type="password"
+                      placeholder="password confirm"
+                    />
+                  </div>
+                )}
 
-              <button type="submit">Authenticate</button>
-            </form>
+                <button type="submit">Authenticate</button>
+              </form>
 
-            <button onClick={this.changeForm}>Switch</button>
-          </div>
+              <button onClick={this.changeForm}>Switch</button>
+            </div>
+          )
         )}
       </div>
     );

@@ -23,8 +23,8 @@ export default () => {
     >Download</Button>
   }
   return posts.map(post => (
-    <div style={{ paddingBottom: 20 }}>
-      <Post post={post} key={post.id} />
+    <div style={{ paddingBottom: 20 }} key={post.id}>
+      <Post post={post} />
     </div>
   )
 

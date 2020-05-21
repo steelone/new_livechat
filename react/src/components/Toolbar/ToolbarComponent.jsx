@@ -14,6 +14,7 @@ import MailIcon from "@material-ui/icons/Mail";
 import NotificationsIcon from "@material-ui/icons/Notifications";
 import MoreIcon from "@material-ui/icons/MoreVert";
 import SearchIcon from "@material-ui/icons/Search";
+import Logout from "../auth/Logout";
 
 const styles = (theme) => ({
   grow: {
@@ -141,8 +142,8 @@ class ToolbarComponent extends React.Component {
         onClose={this.handleMobileMenuClose}
       >
         <MenuItem>
-          <IconButton aria-label="show 4 new mails" color="inherit">
-            <Badge badgeContent={4} color="secondary">
+          <IconButton aria-label="show 1 new mails" color="inherit">
+            <Badge badgeContent={1} color="secondary">
               <MailIcon />
             </Badge>
           </IconButton>
@@ -201,16 +202,16 @@ class ToolbarComponent extends React.Component {
             </div>
             <div className={classes.grow} />
             <div className={classes.sectionDesktop}>
-              <IconButton aria-label="show 4 new mails" color="inherit">
-                <Badge badgeContent={4} color="secondary">
+              <IconButton aria-label="show 1 new mails" color="inherit">
+                <Badge badgeContent={1} color="secondary">
                   <MailIcon />
                 </Badge>
               </IconButton>
               <IconButton
-                aria-label="show 17 new notifications"
+                aria-label="show 11 new notifications"
                 color="inherit"
               >
-                <Badge badgeContent={17} color="secondary">
+                <Badge badgeContent={11} color="secondary">
                   <NotificationsIcon />
                 </Badge>
               </IconButton>
@@ -236,6 +237,7 @@ class ToolbarComponent extends React.Component {
                 <MoreIcon />
               </IconButton>
             </div>
+            <Logout />
           </Toolbar>
         </AppBar>
         {renderMobileMenu}
