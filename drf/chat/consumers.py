@@ -12,7 +12,7 @@ class ChatConsumer(WebsocketConsumer):
 
     def fetch_messages(self, data):
         print('data =============== ', data)
-        messages = get_last_10_messages(data['chatId'])
+        messages = get_last_10_messages(data['chatID'])
         content = {
             'command': 'messages',
             'messages': self.messages_to_json(messages)

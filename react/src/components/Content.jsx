@@ -19,7 +19,7 @@ const Content = () => {
       <Switch>
         <Route exact path="/" component={Home} />
         <Route exact path="/posts/" component={PostsPage} />
-        <Route exact path="/chat/:chatId/" component={ChatPage} />
+        <Route exact path="/chat/:chatID/" component={ChatPage} />
         <Route path="/about" component={About} />
         <Route exact path="/">
           <Redirect to="/posts/" />

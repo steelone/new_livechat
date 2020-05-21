@@ -12,8 +12,8 @@ from django.db.models import Count
 User = get_user_model()
 
 
-def get_last_10_messages(chatId):
-    chat = get_object_or_404(Chat, id=chatId)
+def get_last_10_messages(chatID):
+    chat = get_object_or_404(Chat, id=chatID)
     return chat.messages.order_by('-timestamp').all()[:10]
 
 
@@ -30,12 +30,14 @@ class ChatListView(ListAPIView):
 
     def get_queryset(self):
         queryset = Chat.objects.all()
+        print('get_chats_by_username ===== ', self.request.query_params)
         username = self.request.query_params.get('username', None)
+        print('username ======= ', username)
         if username is not None:
             contact = get_user_contact(username)
-            q_chats = Chat.objects.annotate(participants_num=Count(
-                'participants')).exclude(participants__contact__available__exact=False)
-            print('q_chats:', q_chats)
+            # q_chats = Chat.objects.annotate(participants_num=Count(
+            #     'participants')).exclude(participants__contact__available__exact=False)
+            # print('q_chats ======= ', q_chats)
             queryset = contact.chats.all()
         return queryset
 
