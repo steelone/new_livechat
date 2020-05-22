@@ -16,13 +16,6 @@ class Contact(models.Model):
     available = models.BooleanField(default=False)
 
 
-@receiver(post_save, sender=CustomUser)
-def post_create_user(sender, instance, created, **kwargs):
-    chat = Chat.objects.create()
-    chat.participants.create(user=instance)
-    chat.save()
-
-
 class Message(models.Model):
     contact = models.ForeignKey(
         Contact, related_name='messages', on_delete=models.CASCADE)
@@ -39,3 +32,11 @@ class Chat(models.Model):
 
     def last_10_messages(self):
         return self.messages.order_by('-timestamp').all()[:5]
+
+
+@receiver(post_save, sender=CustomUser)
+def post_create_user(sender, instance, created, **kwargs):
+    chat = Chat.objects.create()
+    if Contact.objects.filter(user__id=instance.id).count() == 0:
+        chat.participants.create(user=instance)
+        chat.save()

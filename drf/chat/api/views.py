@@ -23,7 +23,10 @@ def get_current_chat(chatID):
 
 def get_user_contact(username):
     user = get_object_or_404(User, username=username)
-    return get_object_or_404(Contact, user=user)
+    contacts = Contact.objects.filter(user__id=user.id)
+    if contacts.count() > 1:
+        print('==== More then one related Contact ====', contacts.values())
+    return get_object_or_404(Contact, user__id=user.id)
 
 
 class ChatListView(ListAPIView):
@@ -50,8 +53,7 @@ class ChatListView(ListAPIView):
                 print('There are some available people', q_chats)
             target_chat = q_chats.first()['chats__id']
             if target_chat:
-                queryset = contact.chats.get(pk=target_chat)
-                print('queryset ======= ', queryset)
+                queryset = contact.chats.filter(pk=target_chat)
                 return queryset
             else:
                 print('No one')

@@ -20,8 +20,6 @@ const Auth = () => {
     if (loginForm) {
       dispatch(authLogin(e.target.username.value, e.target.password.value));
     } else {
-      console.log("e.target ========= ", e.target);
-
       dispatch(
         authSignup(
           e.target.username.value,

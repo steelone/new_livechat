@@ -16,6 +16,7 @@ class WebSocketService {
   disconnect() {
     this.statusStop = true
     console.log('disconnect...')
+    this.socketRef.close();
   }
 
   connect() {
@@ -57,7 +58,6 @@ class WebSocketService {
   }
 
   fetchMessages(username, chatID) {
-    console.log('username, chatID', username, chatID)
     this.sendMessage({ command: 'fetch_messages', chatID, username: username });
   }
 

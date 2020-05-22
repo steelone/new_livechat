@@ -15,7 +15,6 @@ class PostForm extends PureComponent {
 	}
 	submitHandler(event) {
 		event.preventDefault()
-		// console.log(this.state.title)
 		const { title } = this.state
 
 		if (!title.trim()) {
@@ -25,13 +24,10 @@ class PostForm extends PureComponent {
 		const newPost = {
 			title, id: Date.now().toString()
 		}
-		console.log(newPost)
 		this.props.createPost(newPost)
 		this.setState({ title: '' })
 	}
 	changeInputHandler(event) {
-		console.log('event.target.value', event.target.value)
-		// event.persist()
 		const { target } = event;
 		const { value } = target;
 		const { name } = target;

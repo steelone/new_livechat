@@ -15,10 +15,6 @@ class ChatPage extends React.Component {
         this.setMessages.bind(this),
         this.addMessage.bind(this)
       );
-      console.log("this.props", this.props);
-      console.log("username", this.props.username);
-      console.log("params.chatID", this.props.match.params.chatID);
-
       WebSocketInstance.fetchMessages(
         this.props.username,
         this.props.match.params.chatID
@@ -104,6 +100,11 @@ class ChatPage extends React.Component {
       <Message key={item.id} arr={arr} item={item} />
     ));
   };
+  keyPress = (e) => {
+    if (e.keyCode === 13 && !e.shiftKey) {
+      this.sendMessageHandler(e);
+    }
+  };
 
   renderChatPageContent = (messages) => {
     return (
@@ -118,7 +119,7 @@ class ChatPage extends React.Component {
           ></div>
         </Grid>
         <Grid container justify="flex-end">
-          <form onSubmit={this.sendMessageHandler}>
+          <form onSubmit={this.sendMessageHandler} onKeyDown={this.keyPress}>
             <Grid direction="column" container spacing={2}>
               <Grid item xs={8}>
                 <TextField
@@ -128,7 +129,9 @@ class ChatPage extends React.Component {
                   multiline
                   required
                   type="text"
-                  rowsMax={4}
+                  autoFocus
+                  rows={2}
+                  rowsMax={7}
                   value={this.state.message}
                   onChange={this.messageChangeHandler}
                   placeholder="Your message..."

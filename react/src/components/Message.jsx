@@ -18,10 +18,6 @@ const useStyles = makeStyles((theme) => ({
 
 const Message = (item, i, arr) => {
   const classes = useStyles();
-  console.log("message ===== ", item);
-  console.log("item ===== ", item.item.content);
-  console.log("author", item.item.author);
-
   const renderTimestamp = (timestamp) => {
     let prefix = "";
     const timeDiff = Math.round(
