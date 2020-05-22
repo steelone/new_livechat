@@ -2,8 +2,9 @@ import React from "react";
 import { connect } from "react-redux";
 import WebSocketInstance from "../../websocket";
 import axios from "axios";
-import { Grid, Typography, Button, TextField } from "@material-ui/core";
+import { Grid, Button, TextField } from "@material-ui/core";
 import Message from "../Message";
+import Loader from "../Loader";
 
 class ChatPage extends React.Component {
   state = { message: "" };
@@ -38,10 +39,10 @@ class ChatPage extends React.Component {
     if (this.props.token !== null && this.props.username !== null) {
       this.getUserChats(this.props.token, this.props.username);
     }
-    this.scrollToBottom();
+    this.state.messages && this.scrollToBottom();
   }
   componentDidUpdate() {
-    this.scrollToBottom();
+    this.state.messages && this.scrollToBottom();
   }
 
   componentWillReceiveProps(newProps) {
@@ -104,12 +105,11 @@ class ChatPage extends React.Component {
     ));
   };
 
-  render() {
-    const messages = this.state.messages;
+  renderChatPageContent = (messages) => {
     return (
       <>
         <Grid item xs={12}>
-          {messages && this.renderMessages(messages)}
+          {this.renderMessages(messages)}
           <div
             style={{ float: "left", clear: "both" }}
             ref={(el) => {
@@ -144,11 +144,20 @@ class ChatPage extends React.Component {
         </Grid>
       </>
     );
+  };
+  render() {
+    const messages = this.state.messages;
+
+    return (
+      <>
+        {!messages && <Loader />}
+        {messages && this.renderChatPageContent(messages)}
+      </>
+    );
   }
 }
 
 const mapStateToProps = (state) => {
-  console.log("ChatPage", state.auth.username);
   return {
     chats: [],
     username: state.auth.username,

@@ -1,5 +1,7 @@
 from django.contrib.auth.models import AbstractUser
 from django.db import models
+from django.db.models.signals import post_save
+from django.dispatch import receiver
 
 
 class CustomUser(AbstractUser):
@@ -13,8 +15,12 @@ class Contact(models.Model):
     friends = models.ManyToManyField('self', blank=True)
     available = models.BooleanField(default=False)
 
-    def __str__(self):
-        return self.user.username
+
+@receiver(post_save, sender=CustomUser)
+def post_create_user(sender, instance, created, **kwargs):
+    chat = Chat.objects.create()
+    chat.participants.create(user=instance)
+    chat.save()
 
 
 class Message(models.Model):
@@ -33,6 +39,3 @@ class Chat(models.Model):
 
     def last_10_messages(self):
         return self.messages.order_by('-timestamp').all()[:5]
-
-    def __str__(self):
-        return "{}".format(self.pk)

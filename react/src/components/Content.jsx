@@ -21,9 +21,6 @@ const Content = () => {
         <Route exact path="/posts/" component={PostsPage} />
         <Route exact path="/chat/:chatID/" component={ChatPage} />
         <Route path="/about" component={About} />
-        <Route exact path="/">
-          <Redirect to="/posts/" />
-        </Route>
         <Route exact path="*">
           <Redirect to="/" />
         </Route>

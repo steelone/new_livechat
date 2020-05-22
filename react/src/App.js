@@ -39,7 +39,6 @@ function App() {
     <>
       {isLoggedIn && app}
       {!isLoggedIn && <Auth />}
-      {/* {app} */}
     </>
   );
 }

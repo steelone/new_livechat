@@ -1,13 +1,13 @@
 from ..models import Chat, Contact
 from django.shortcuts import render
 from .serializers import ChatSerializer
-from .filters import ChatFilter
 from django.contrib.auth import get_user_model
 from django.shortcuts import get_object_or_404
 from rest_framework import permissions
 from rest_framework.generics import ListAPIView, RetrieveAPIView,\
     CreateAPIView, DestroyAPIView, UpdateAPIView
-from django.db.models import Count
+from django.db.models import Count, Q
+from .lookup import NotEqual
 
 User = get_user_model()
 
@@ -29,20 +29,33 @@ def get_user_contact(username):
 class ChatListView(ListAPIView):
     serializer_class = ChatSerializer
     permission_classes = (permissions.AllowAny, )
-    filter_class = ChatFilter
 
     def get_queryset(self):
         queryset = Chat.objects.all()
-        print('get_chats_by_username ===== ', self.request.query_params)
         username = self.request.query_params.get('username', None)
-        print('username ======= ', username)
         if username is not None:
             contact = get_user_contact(username)
-            # q_chats = Chat.objects.annotate(participants_num=Count(
-            #     'participants')).exclude(participants__contact__available__exact=False)
-            # print('q_chats ======= ', q_chats)
-            queryset = contact.chats.all()
-        return queryset
+            contact.available = True
+            contact.save()
+            q_chats = Contact.objects.filter(
+                available=True,
+                id__ne=contact.id
+            ).prefetch_related('chats').annotate(
+                Count('chats__participants')
+            ).filter(chats__participants=1).values(
+                'id', 'available', 'chats__id',
+                'chats__participants__count'
+            )
+            if q_chats:
+                print('There are some available people', q_chats)
+            target_chat = q_chats.first()['chats__id']
+            if target_chat:
+                queryset = contact.chats.get(pk=target_chat)
+                print('queryset ======= ', queryset)
+                return queryset
+            else:
+                print('No one')
+        return None
 
 
 class ChatDetailView(RetrieveAPIView):

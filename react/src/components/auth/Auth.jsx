@@ -64,8 +64,16 @@ class SignUp extends React.Component {
 
                 <button type="submit">Authenticate</button>
               </form>
-
               <button onClick={this.changeForm}>Switch</button>
+              <p style={{ color: "#DC143C" }}>
+                {this.props.error &&
+                  this.props.error.response.status +
+                    " " +
+                    this.props.error.response.statusText}
+              </p>
+              <p style={{ color: "#DC143C" }}>
+                {this.props.error && this.props.error.request.response}
+              </p>
             </div>
           )
         )}
@@ -75,13 +83,13 @@ class SignUp extends React.Component {
 }
 
 const mapStateToProps = (state) => {
-  console.log(state.error);
   return {
-    isAuthenticated: state.token !== null,
-    logged_in: state.logged_in,
-    loading: state.loading,
-    token: state.token,
-    username: state.username,
+    isAuthenticated: state.auth.token !== null,
+    logged_in: state.auth.logged_in,
+    loading: state.auth.loading,
+    error: state.auth.error,
+    token: state.auth.token,
+    username: state.auth.username,
   };
 };
 

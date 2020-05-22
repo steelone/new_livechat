@@ -19,7 +19,6 @@ class CustomUserSerializer(serializers.HyperlinkedModelSerializer):
         )
         extra_kwargs = {'password': {'write_only': True, 'required': True}}
 
-    # CREATE TOKEN
     def create(self, validated_data):
         user = super().create(validated_data)
         if 'password' in validated_data:
