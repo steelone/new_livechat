@@ -6,7 +6,7 @@ const initialState = {
     username: null,
     error: null,
     loading: false,
-    logged_in: false,
+    loggedIn: false,
     avatar: null
 }
 
@@ -23,7 +23,7 @@ const authSuccess = (state, action) => {
         username: action.username,
         error: null,
         loading: false,
-        logged_in: true,
+        loggedIn: true,
         avatar: action.avatar
     });
 }
@@ -39,7 +39,7 @@ const authLogout = (state, action) => {
     return updateObject(state, {
         token: null,
         username: null,
-        logged_in: false,
+        loggedIn: false,
         avatar: null
     });
 }

@@ -24,7 +24,7 @@ function App() {
     dispatch(authCheckState());
   }, [dispatch]);
 
-  const isLoggedIn = useSelector(state => state.auth.logged_in);
+  const isLoggedIn = useSelector(state => state.auth.loggedIn);
   const app = (
     <Container className={classes.main}>
       <BrowserRouter>
