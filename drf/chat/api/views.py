@@ -42,7 +42,8 @@ class ChatListView(ListAPIView):
             contact.available = True
             contact.save()
             q_chats = Chat.objects.annotate(
-                Count('participants')).filter(participants__count=1).order_by('participants__count')
+                Count('participants')).filter(
+                    participants__count=1).order_by('participants__count')
             if q_chats:
                 print('There are some available people', q_chats)
                 target_chat = [q_chats.first()]
@@ -57,7 +58,11 @@ class ChatListView(ListAPIView):
                     return queryset
             else:
                 print("No chats! Let's create by post_save")
-                user.save()
+                chat = Chat.objects.create()
+                chat.save()
+                # Put current contact in this chat
+                chat.participants.add(contact.id)
+                chat.save()
                 return queryset
         return queryset
 

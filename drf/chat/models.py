@@ -39,17 +39,6 @@ def post_save_user(sender, instance, created, **kwargs):
     # CREATE CHAT and CONTACT if they don't exist
     print('___POST_SAVE___')
     contact = Contact.objects.filter(user=instance)
-    participants = Chat.objects.all().values_list(
-        'participants__id', flat=True).distinct()
-    # Does exist this user in any chats
-    if instance.id not in participants:
-        chat = Chat.objects.create()
-        chat.save()
-        # Creates a contact and put it in this chat
-        if not contact:
-            chat.participants.create(user=instance)
-        # Put current contact in this chat
-        else:
-            print('====== contact ID ======', contact[0].id)
-            chat.participants.add(contact[0].id)
-        chat.save()
+    if not contact:
+        contact = Contact.objects.create(instance)
+        contact.save()

@@ -33,7 +33,7 @@ class ContactViewSet(viewsets.ModelViewSet):
         user_id = request.user.id
         contact = get_user_contact(request.user.username)
         if request.data == {'available': False}:
-            print(' clean user-contact from chats...')
+            print(" ==== clean user's contact from chats...")
             chats = Chat.objects.filter(
                 participants__id=contact.id)
             print('chats ===== ', chats)

@@ -30,14 +30,13 @@ const Home = () => {
   const chatId = useSelector((state) => state.app.chatId);
 
   useEffect(() => {
-    setTimeout(() => {
-      if (chatId == null) {
-        dispatch(openChat());
-      } else {
-        console.log("Redirect !!! ", `/chat/${chatId}`);
-        history.push(`/chat/${chatId}`);
-      }
-    }, 1000);
+    if (username && !chatId) {
+      dispatch(openChat());
+    } else {
+      console.log("Redirect !!! ", `/chat/${chatId}`);
+      history.push(`/chat/${chatId}`);
+    }
+    setTimeout(() => {}, 1000);
   }, [dispatch, chatId]);
 
   // const closeChatA = () => {
