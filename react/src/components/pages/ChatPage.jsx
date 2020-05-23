@@ -1,10 +1,10 @@
 import React from "react";
 import { connect } from "react-redux";
 import WebSocketInstance from "../../websocket";
-import axios from "axios";
 import { Grid, Button, TextField } from "@material-ui/core";
 import Message from "../Message";
 import Loader from "../Loader";
+import { closeChat } from "../../store/actions/app";
 
 class ChatPage extends React.Component {
   state = { message: "" };
@@ -32,32 +32,14 @@ class ChatPage extends React.Component {
     this.messagesEnd.scrollIntoView({ behavior: "smooth" });
   };
   componentDidMount() {
-    if (this.props.token !== null && this.props.username !== null) {
-      this.getUserChats(this.props.token, this.props.username);
-    }
     this.state.messages && this.scrollToBottom();
   }
   componentDidUpdate() {
     this.state.messages && this.scrollToBottom();
   }
-
-  componentWillReceiveProps(newProps) {
-    if (newProps.token !== null && newProps.username !== null) {
-      this.getUserChats(newProps.token, newProps.username);
-    }
+  componentWillReceiveProps() {
     this.initialiseChat();
   }
-
-  getUserChats = (token, username) => {
-    // axios.defaults.headers = {
-    //   "Content-Type": "application/json",
-    //   Authorization: `Token ${token}`,
-    // };
-    axios
-      .get(`http://127.0.0.1:8000/chat/?username=${username}`)
-      .then((res) => this.setState({ chats: res.data }));
-  };
-
   waitForSocketConnection(callback) {
     const component = this;
     setTimeout(function () {
@@ -105,10 +87,19 @@ class ChatPage extends React.Component {
       this.sendMessageHandler(e);
     }
   };
+  newChat = () => {
+    WebSocketInstance.disconnect();
+    this.props.history.push("/");
+    const { closeChat } = this.props;
+    closeChat(this.props.username);
+  };
 
   renderChatPageContent = (messages) => {
     return (
       <>
+        <Button variant="contained" color="secondary" onClick={this.newChat}>
+          NEW CHAT
+        </Button>
         <Grid item xs={12}>
           {this.renderMessages(messages)}
           <div
@@ -162,9 +153,8 @@ class ChatPage extends React.Component {
 
 const mapStateToProps = (state) => {
   return {
-    chats: [],
     username: state.auth.username,
   };
 };
 
-export default connect(mapStateToProps)(ChatPage);
+export default connect(mapStateToProps, { closeChat })(ChatPage);

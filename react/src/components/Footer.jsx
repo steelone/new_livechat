@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   BottomNavigation,
   BottomNavigationAction,
@@ -12,6 +12,10 @@ import * as actions from "../store/actions/auth";
 import { connect } from "react-redux";
 import WebSocketInstance from "../websocket";
 
+import { useDispatch, useSelector } from "react-redux";
+import { openChat, closeChat } from "../store/actions/app";
+import { useHistory } from "react-router-dom";
+
 const useStyles = makeStyles((theme) => ({
   footer: {
     padding: theme.spacing(3, 2),
@@ -24,21 +28,34 @@ const useStyles = makeStyles((theme) => ({
 }));
 const Footer = () => {
   const classes = useStyles();
-  const [value, setValue] = React.useState("busy");
+  const dispatch = useDispatch();
+  let history = useHistory();
 
-  const handleChange = (event, newValue) => {
-    setValue(newValue);
-    // TODO HERE OPEN AND CONNECT CHAT
-    if (newValue === "available") {
+  const username = useSelector((state) => state.auth.username);
+  const token = useSelector((state) => state.auth.token);
+  // const available = useSelector((state) => state.auth.available);
+  // const chatId = useSelector((state) => state.app.chatId);
+  const contactId = useSelector((state) => state.app.contactId);
+  // let status = useSelector((state) => state.app.status);
+  const [status, setStatus] = useState("busy");
+
+  // TODO HERE OPEN AND CONNECT CHAT
+  const handleChange = (e, value) => {
+    if (username && value === "available") {
+      setStatus(value);
       WebSocketInstance.connect();
+      dispatch(openChat());
     } else {
       WebSocketInstance.disconnect();
+      contactId && dispatch(closeChat(username, token, contactId));
+      history.push("/");
     }
   };
+
   return (
     <footer className={classes.footer}>
       <Container maxWidth="sm">
-        <BottomNavigation value={value} onChange={handleChange}>
+        <BottomNavigation value={status} onChange={handleChange}>
           <BottomNavigationAction
             label="I'm busy"
             value="busy"

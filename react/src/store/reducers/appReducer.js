@@ -1,8 +1,16 @@
-import { HIDE_LOADER, SHOW_LOADER, SHOW_ALERT, HIDE_ALERT } from '../actions/actionTypes'
+import {
+  HIDE_LOADER,
+  SHOW_LOADER,
+  SHOW_ALERT,
+  HIDE_ALERT,
+  SHOW_CHAT,
+  HIDE_CHAT
+} from '../actions/actionTypes'
 
 const initialState = {
   loading: false,
-  alert: null
+  alert: null,
+  chatId: null,
 }
 
 export const appReducer = (state = initialState, action) => {
@@ -15,6 +23,10 @@ export const appReducer = (state = initialState, action) => {
       return { ...state, alert: action.payload }
     case HIDE_ALERT:
       return { ...state, alert: null }
+    case SHOW_CHAT:
+      return { ...state, chatId: action.payload }
+    case HIDE_CHAT:
+      return { ...state, chatId: null }
     default: return state
   }
 }

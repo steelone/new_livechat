@@ -36,28 +36,30 @@ class ChatListView(ListAPIView):
     def get_queryset(self):
         queryset = Chat.objects.all()
         username = self.request.query_params.get('username', None)
+        user = get_object_or_404(User, username=username)
         if username is not None:
             contact = get_user_contact(username)
             contact.available = True
             contact.save()
-            q_chats = Contact.objects.filter(
-                available=True,
-                id__ne=contact.id
-            ).prefetch_related('chats').annotate(
-                Count('chats__participants')
-            ).filter(chats__participants=1).values(
-                'id', 'available', 'chats__id',
-                'chats__participants__count'
-            )
+            q_chats = Chat.objects.annotate(
+                Count('participants')).filter(participants__count=1).order_by('participants__count')
             if q_chats:
                 print('There are some available people', q_chats)
-            target_chat = q_chats.first()['chats__id']
-            if target_chat:
-                queryset = contact.chats.filter(pk=target_chat)
-                return queryset
+                target_chat = [q_chats.first()]
+                if target_chat:
+                    queryset = target_chat
+                    print('=== get queryset ====== ', queryset)
+                    print('=== target_chat id ====== ', target_chat[0].id)
+                    print('=== get user ====== ', user)
+                    contact = get_user_contact(user)
+                    chat = get_current_chat(target_chat[0].id)
+                    chat.participants.add(contact.id)
+                    return queryset
             else:
-                print('No one')
-        return None
+                print("No chats! Let's create by post_save")
+                user.save()
+                return queryset
+        return queryset
 
 
 class ChatDetailView(RetrieveAPIView):

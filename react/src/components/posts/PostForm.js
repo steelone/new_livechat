@@ -1,6 +1,7 @@
 import React, { PureComponent } from 'react'
 import { connect } from 'react-redux'
-import { createPost, showAlert } from '../../store/actions/posts'
+import { showAlert } from '../../store/actions/app'
+import { createPost } from '../../store/actions/posts'
 import { Error } from '../Error'
 import { OutlinedInput, Button, FormControl, InputLabel, Grid } from '@material-ui/core';
 

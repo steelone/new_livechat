@@ -19,9 +19,9 @@ class WebSocketService {
     this.socketRef.close();
   }
 
-  connect() {
+  connect(chatID) {
     this.statusStop = false
-    const path = 'ws://127.0.0.1:8000/ws/chat/1/';
+    const path = `ws://127.0.0.1:8000/ws/chat/${chatID}/`;
     this.socketRef = new WebSocket(path);
     this.socketRef.onopen = () => {
       console.log('WebSocket open');

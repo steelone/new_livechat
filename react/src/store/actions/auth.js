@@ -1,5 +1,6 @@
 import axios from 'axios';
 import * as actionTypes from './actionTypes';
+import { closeChat } from './app'
 
 export const authStart = () => {
   return {
@@ -23,9 +24,21 @@ export const authFail = error => {
 }
 
 export const logout = () => {
+  return dispatch => {
+    const username = localStorage.getItem('username');
+    const token = localStorage.getItem('token');
+    const chatId = localStorage.getItem('chatId');
+    chatId && dispatch(closeChat(username, token, chatId));
+    dispatch(logoutFinish());
+  }
+}
+
+
+export const logoutFinish = () => {
   localStorage.removeItem('token');
   localStorage.removeItem('username');
   localStorage.removeItem('expirationDate');
+  localStorage.removeItem('chatId');
   return {
     type: actionTypes.AUTH_LOGOUT,
   };
@@ -47,6 +60,7 @@ export const authLogin = (username, password) => {
       password: password
     })
       .then(res => {
+        console.log('res.data', res.data)
         const token = res.data.key;
         const expirationDate = new Date(new Date().getTime() + 3600 * 1000);
         localStorage.setItem('token', token);
@@ -103,23 +117,3 @@ export const authCheckState = () => {
     }
   }
 }
-
-
-export const checkLoginStatus = () => {
-  axios.get('http://127.0.0.1:8000/users/', { withCredentials: true })
-    .then(response => {
-      console.log('response ===== ', response)
-      if (response.data === 200) {
-        console.log('Good...')
-        // const token = localStorage.getItem('token');
-        // const username = localStorage.getItem('username');    
-        // dispatch(authSuccess(username, token));
-      } else {
-        console.log('else...')
-      }
-    })
-    .catch(error => {
-      console.log('error ==== ', error)
-    })
-};
-

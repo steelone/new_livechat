@@ -13,12 +13,17 @@ import { sagaWatcher } from "./store/sagas/sagas";
 
 const saga = createSagaMiddleware();
 
+const middleware = applyMiddleware(
+  thunk,
+  forbiddenWordsMiddleware,
+  saga
+);
+const composeEnhancers =
+  window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+
 const store = createStore(
   rootReducer,
-  compose(
-    applyMiddleware(thunk, forbiddenWordsMiddleware, saga),
-    window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
-  )
+  composeEnhancers(middleware)
 );
 
 saga.run(sagaWatcher);

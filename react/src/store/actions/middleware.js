@@ -1,5 +1,5 @@
 import { CREATE_POST } from './actionTypes'
-import { showAlert } from './posts'
+import { showAlert } from './app'
 
 
 const forbidden = ['fuck', 'test', 'sex']

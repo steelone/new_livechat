@@ -30,4 +30,4 @@ class CustomUserSerializer(serializers.HyperlinkedModelSerializer):
 class ContactSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Contact
-        fields = ('available')
+        fields = '__all__'

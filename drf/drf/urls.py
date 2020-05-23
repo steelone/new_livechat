@@ -3,11 +3,12 @@ from django.urls import path
 from django.conf.urls import url, include
 from rest_framework import routers
 
-from chat.views import CustomUserViewSet, \
-    CustomUserUpdateView, CustomUserPartialUpdateView, ContactUpdateView
+from chat.views import CustomUserViewSet, ContactViewSet,\
+    CustomUserUpdateView, CustomUserPartialUpdateView
 
 router = routers.DefaultRouter()
 router.register(r'users', CustomUserViewSet)
+router.register(r'contacts', ContactViewSet)
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -22,5 +23,4 @@ urlpatterns = [
         CustomUserPartialUpdateView.as_view(), name='user_partial_update'),
 
     path('chat/', include('chat.api.urls', namespace='chat')),
-    path('contact/<pk>/update/', ContactUpdateView.as_view()),
 ]

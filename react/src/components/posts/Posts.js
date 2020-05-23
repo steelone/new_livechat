@@ -22,7 +22,6 @@ const Posts = ({ syncPosts }) => {
 const mapStateToProps = state => {
   return {
     syncPosts: state.posts.posts
-
   }
 }
 

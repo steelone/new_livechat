@@ -20,7 +20,7 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: "column",
     alignItems: "center",
   },
-  avatar: {
+  avatarImg: {
     margin: theme.spacing(1),
     backgroundColor: theme.palette.secondary.main,
   },
@@ -41,7 +41,7 @@ const SignIn = (props) => {
     <Container component="main" maxWidth="xs">
       <CssBaseline />
       <div className={classes.paper}>
-        <Avatar className={classes.avatar}>
+        <Avatar className={classes.avatarImg}>
           <LockOutlinedIcon />
         </Avatar>
         <Typography component="h1" variant="h5">

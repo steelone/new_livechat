@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import Header from "./components/Header"
-import Footer from './components/Footer';
+// import Footer from './components/Footer';
 import Content from './components/Content';
 import { BrowserRouter } from 'react-router-dom';
 import { makeStyles, Container } from "@material-ui/core";
@@ -19,7 +19,6 @@ function App() {
   const classes = useStyles();
   const dispatch = useDispatch();
 
-
   useEffect(() => {
     dispatch(authCheckState());
   }, [dispatch]);
@@ -30,7 +29,7 @@ function App() {
       <BrowserRouter>
         <Header />
         <Content />
-        <Footer />
+        {/* <Footer /> */}
       </BrowserRouter>
     </Container>
   )
