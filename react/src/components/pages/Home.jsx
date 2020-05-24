@@ -1,12 +1,11 @@
 import React, { useEffect } from "react";
 import { Grid, Paper, Typography } from "@material-ui/core";
-// import { connect } from "react-redux";
-
 import { useDispatch, useSelector } from "react-redux";
-import { openChat, closeChat } from "../../store/actions/app";
+import { openChat } from "../../store/actions/app";
 import { useHistory } from "react-router-dom";
 import { makeStyles } from "@material-ui/core";
 import Loader from "../Loader";
+import WebSocketInstance from "../../websocket";
 
 const useStyles = makeStyles((theme) => ({
   home: {
@@ -26,24 +25,30 @@ const Home = () => {
   let history = useHistory();
   const loading = useSelector((state) => state.app.loading);
   const username = useSelector((state) => state.auth.username);
-  const token = useSelector((state) => state.auth.token);
   const chatId = useSelector((state) => state.app.chatId);
 
   useEffect(() => {
     if (username && !chatId) {
-      dispatch(openChat());
-    } else {
+      dispatch(openChat(username));
+    } else if (username && chatId) {
+      dispatch(openChat(username, chatId));
+      setTimeout(() => {
+        console.log("Redirect !!! ", `/chat/${chatId}`);
+        history.push(`/chat/${chatId}`);
+        console.log("Redirect Done ", `/chat/${chatId}`);
+      }, 2000);
+    }
+    // }, [dispatch, history, username, chatId]);
+  }, [dispatch, username]);
+
+  useEffect(() => {
+    if (chatId) {
+      WebSocketInstance.disconnect();
       console.log("Redirect !!! ", `/chat/${chatId}`);
       history.push(`/chat/${chatId}`);
+      console.log("Redirect Done ", `/chat/${chatId}`);
     }
-    setTimeout(() => {}, 1000);
-  }, [dispatch, chatId]);
-
-  // const closeChatA = () => {
-  //   chatId && dispatch(closeChat(username, token, chatId));
-  //   console.log("closeChat clicked !!! ");
-  //   history.push("/");
-  // };
+  }, [chatId]);
 
   const preparingChat = (
     <div className={classes.home}>
@@ -57,13 +62,7 @@ const Home = () => {
       </Grid>
     </div>
   );
-  return (
-    <>
-      {loading && preparingChat}
-      {/* <button onClick={openChatA}>openChat</button>
-      <button onClick={closeChatA}>closeChat</button> */}
-    </>
-  );
+  return <>{loading && preparingChat}</>;
 };
 
 export default Home;

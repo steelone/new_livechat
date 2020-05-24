@@ -3,6 +3,7 @@ import Button from "@material-ui/core/Button";
 import { useDispatch } from "react-redux";
 import { logout } from "../../store/actions/auth";
 import { useHistory } from "react-router-dom";
+import WebSocketInstance from "../../websocket";
 
 const Logout = () => {
   const dispatch = useDispatch();
@@ -14,6 +15,7 @@ const Logout = () => {
       color="secondary"
       onClick={() => {
         history.push("/");
+        WebSocketInstance.disconnect();
         dispatch(logout());
       }}
     >

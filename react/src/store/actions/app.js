@@ -7,7 +7,7 @@ import {
   HIDE_CHAT
 } from "./actionTypes";
 import axios from 'axios';
-import WebSocketInstance from "../../websocket";
+// import WebSocketInstance from "../../websocket";
 
 export function showLoader() {
   return {
@@ -59,11 +59,18 @@ export function hideChat() {
 const username = localStorage.getItem('username')
 const token = localStorage.getItem('token')
 // LOGIC: OPEN HIS CHAT OR ADD TO AVAILABLE CHAT
-export function openChat() {
+export function openChat(username, chatId) {
   return dispatch => {
     dispatch(showLoader())
+    console.log('==== username in OpenFun =====', username)
+    console.log('==== chatId in OpenFun =====', chatId)
+    let url = `http://127.0.0.1:8000/chat/?username=${username}`
+    if (chatId) {
+      url = `http://127.0.0.1:8000/chat/?username=${username}&chatID=${chatId}`
+    }
+    console.log('==== url in OpenFun =====', url)
     axios
-      .get(`http://127.0.0.1:8000/chat/?username=${username}`)
+      .get(url)
       .then((res) => {
         console.log("====== res.data.id ======= ", res.data[0].id);
         const chatId = res.data[0].id
@@ -76,14 +83,15 @@ export function openChat() {
       })
   }
 }
-// LOGIC: DELETE USER_CONTACT FROM THIS CHAT
-export const closeChat = () => {
+
+export const closeChat = (username, token) => {
   return dispatch => {
     // dispatch(WebSocketInstance.disconnect());
     axios.defaults.headers = {
       "Content-Type": "application/json",
       Authorization: `Token ${token}`,
     };
+    console.log('LOGOUT...')
     let contactId = 0
     axios
       .get(`http://127.0.0.1:8000/contacts/?username=${username}`)

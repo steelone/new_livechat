@@ -78,6 +78,10 @@ const styles = (theme) => ({
   },
 });
 
+const defaultProps = {
+  username: "",
+};
+
 class ToolbarComponent extends React.Component {
   state = {
     achorEl: false,
@@ -110,9 +114,11 @@ class ToolbarComponent extends React.Component {
   };
 
   render() {
-    const { classes } = this.props;
+    const { props } = this;
+    const { username, classes, openDrawerHandler } = props;
     const isMenuOpen = Boolean(this.state.anchorEl);
     const isMobileMenuOpen = Boolean(this.state.mobileMoreAnchorEl);
+    console.log("username -------------------- ", username);
 
     const menuId = "primary-search-account-menu";
     const renderMenu = (
@@ -180,7 +186,7 @@ class ToolbarComponent extends React.Component {
               className={classes.menuButton}
               color="inherit"
               aria-label="open drawer"
-              onClick={this.props.openDrawerHandler}
+              onClick={openDrawerHandler}
             >
               <MenuIcon />
             </IconButton>
@@ -215,6 +221,7 @@ class ToolbarComponent extends React.Component {
                   <NotificationsIcon />
                 </Badge>
               </IconButton>
+
               <IconButton
                 edge="end"
                 aria-label="account of current user"
@@ -225,8 +232,10 @@ class ToolbarComponent extends React.Component {
               >
                 <AccountCircle />
               </IconButton>
+              <Typography>{username}</Typography>
             </div>
             <div className={classes.sectionMobile}>
+              <Typography>{username}</Typography>
               <IconButton
                 aria-label="show more"
                 aria-controls={mobileMenuId}
@@ -246,5 +255,5 @@ class ToolbarComponent extends React.Component {
     );
   }
 }
-
+ToolbarComponent.defaultProps = defaultProps;
 export default withStyles(styles)(ToolbarComponent);

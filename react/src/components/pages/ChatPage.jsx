@@ -90,8 +90,6 @@ class ChatPage extends React.Component {
   newChat = () => {
     WebSocketInstance.disconnect();
     this.props.history.push("/");
-    const { closeChat } = this.props;
-    closeChat(this.props.username);
   };
 
   renderChatPageContent = (messages) => {

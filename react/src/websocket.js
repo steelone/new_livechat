@@ -16,7 +16,7 @@ class WebSocketService {
   disconnect() {
     this.statusStop = true
     console.log('disconnect...')
-    this.socketRef.close();
+    this.socketRef && this.socketRef.close();
   }
 
   connect(chatID) {

@@ -2,7 +2,6 @@ import React from "react";
 import PostForm from "../posts/PostForm";
 import FetchedPosts from "../posts/FetchedPosts";
 import Posts from "../posts/Posts";
-// import MouseTracker from "../MouseTracker/MouseTracker";
 import Paper from "@material-ui/core/Paper";
 import Grid from "@material-ui/core/Grid";
 import { makeStyles } from "@material-ui/core/styles";
@@ -39,9 +38,6 @@ const PostsPage = () => {
             <FetchedPosts />
           </Paper>
         </Grid>
-        {/* <Grid item xs={12}>
-          <Paper><MouseTracker /></Paper>
-        </Grid> */}
       </Grid>
     </div>
   );

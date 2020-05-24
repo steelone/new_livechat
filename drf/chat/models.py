@@ -26,9 +26,17 @@ class Message(models.Model):
         return self.content
 
 
+class BlacklistChat(models.Model):
+    contact = models.OneToOneField(Contact,
+                                   null=True,  on_delete=models.CASCADE,
+                                   related_name='blacklist',
+                                   )
+
+
 class Chat(models.Model):
     participants = models.ManyToManyField(Contact, related_name='chats')
     messages = models.ManyToManyField(Message, blank=True)
+    blacklists = models.ManyToManyField(BlacklistChat, blank=True)
 
     def last_10_messages(self):
         return self.messages.order_by('-timestamp').all()[:5]
@@ -36,9 +44,13 @@ class Chat(models.Model):
 
 @receiver(post_save, sender=CustomUser)
 def post_save_user(sender, instance, created, **kwargs):
-    # CREATE CHAT and CONTACT if they don't exist
+    # CREATE CONTACT if it doesn't exist
     print('___POST_SAVE___')
     contact = Contact.objects.filter(user=instance)
     if not contact:
-        contact = Contact.objects.create(instance)
+        print('==== POST_SAVE contact =====', contact)
+        contact = Contact.objects.create(user=instance)
         contact.save()
+        blacklist = BlacklistChat.objects.create(contact=contact)
+        print('==== POST_SAVE blacklist =====', blacklist)
+        blacklist.save()

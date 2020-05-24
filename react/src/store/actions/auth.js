@@ -28,7 +28,7 @@ export const logout = () => {
     const username = localStorage.getItem('username');
     const token = localStorage.getItem('token');
     const chatId = localStorage.getItem('chatId');
-    chatId && dispatch(closeChat(username, token, chatId));
+    chatId && dispatch(closeChat(username, token));
     dispatch(logoutFinish());
   }
 }
@@ -87,7 +87,8 @@ export const authSignup = (username, email, password1, password2) => {
     })
       .then(res => {
         const token = res.data.key;
-        const expirationDate = new Date(new Date().getTime() + 3600 * 1000);
+        // const expirationDate = new Date(new Date().getTime() + 3600 * 1000);
+        const expirationDate = new Date(new Date().getTime() + 3600);
         localStorage.setItem('token', token);
         localStorage.setItem('username', username);
         localStorage.setItem('expirationDate', expirationDate);

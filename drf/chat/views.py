@@ -4,7 +4,7 @@ from rest_framework.generics import UpdateAPIView
 from rest_framework.permissions import IsAuthenticatedOrReadOnly, IsAuthenticated
 from rest_framework.generics import GenericAPIView
 from django.shortcuts import render
-from .models import CustomUser, Contact, Chat
+from .models import CustomUser, Contact, Chat, BlacklistChat
 from .serializers import CustomUserSerializer, ContactSerializer
 from rest_framework import viewsets
 from rest_framework.mixins import UpdateModelMixin
@@ -33,16 +33,16 @@ class ContactViewSet(viewsets.ModelViewSet):
         user_id = request.user.id
         contact = get_user_contact(request.user.username)
         if request.data == {'available': False}:
-            print(" ==== clean user's contact from chats...")
+            print(" cleaning user's contact from chats...")
             chats = Chat.objects.filter(
                 participants__id=contact.id)
-            print('chats ===== ', chats)
             if chats:
                 for chat in chats:
-                    print('===== chat.id === ', chat.id)
+                    print(' cleaning chat... = ', chat.id)
                     chat = get_current_chat(chat.id)
-                    print('========= contact.id =====', contact.id)
                     chat.participants.remove(contact.id)
+                    blacklist = BlacklistChat.objects.get(contact=contact.id)
+                    chat.blacklists.remove(blacklist.id)
         return self.update(request, *args, **kwargs)
 
 
