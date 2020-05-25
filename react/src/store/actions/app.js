@@ -38,11 +38,14 @@ export function hideAlert() {
   }
 }
 
-export function showChat(chatId) {
+export function showChat(chatId, participants) {
   return dispatch => {
     dispatch({
       type: SHOW_CHAT,
-      payload: chatId
+      payload: {
+        chatId,
+        participants
+      }
     })
   }
 }
@@ -56,21 +59,49 @@ export function hideChat() {
 }
 
 // LOGIC: OPEN HIS CHAT OR ENTER TO AVAILABLE CHAT
-export function openChat(username, chatId) {
+export function openChat(username, chatId, stayHere) {
   return dispatch => {
     dispatch(showLoader())
     let url = `http://127.0.0.1:8000/chat/?username=${username}`
     if (chatId) {
       url = `http://127.0.0.1:8000/chat/?username=${username}&chatID=${chatId}`
     }
+    if (stayHere) {
+      url = `http://127.0.0.1:8000/chat/?username=${username}&chatID=${chatId}&stayHere=${stayHere}`
+    }
+    let participants = []
     axios
       .get(url)
       .then((res) => {
-        console.log("=== chatId === ", res.data[0].id);
         const chatId = res.data[0].id
         localStorage.setItem('chatId', chatId);
-        dispatch(hideLoader())
-        dispatch(showChat(chatId))
+        res.data[0].participants.forEach((item, i, arr) => {
+          axios
+            .get(`http://127.0.0.1:8000/contacts/${item}/`)
+            .then((res) => {
+              const user = res.data.user
+              axios
+                .get(`${user}`)
+                .then((res) => {
+                  item = {
+                    id: res.data.id,
+                    username: res.data.username,
+                    avatar: res.data.avatar
+                  }
+                  participants.push(item)
+                  if (i === arr.length - 1) {
+                    dispatch(hideLoader())
+                    dispatch(showChat(chatId, participants))
+                  }
+                })
+                .catch((error) => {
+                  console.error(error.message);
+                })
+            })
+            .catch((error) => {
+              console.error(error.message);
+            })
+        })
       })
       .catch((error) => {
         console.error(error.message);

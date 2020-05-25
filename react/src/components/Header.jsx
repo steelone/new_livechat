@@ -14,7 +14,7 @@ const Header = () => {
   return (
     <>
       <ToolbarComponent openDrawerHandler={toggleMenu} username={username} />
-      <DrawerComponent left={isVisible} toggleDrawerHandler={toggleMenu} />
+      <DrawerComponent isVisible={isVisible} toggleDrawerHandler={toggleMenu} />
     </>
   );
 };

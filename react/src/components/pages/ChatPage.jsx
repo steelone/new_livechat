@@ -5,6 +5,7 @@ import { Grid, Button, TextField } from "@material-ui/core";
 import Message from "../Message";
 import Loader from "../Loader";
 import { openChat } from "../../store/actions/app";
+import ChatPageFooter from "./ChatPageFooter";
 
 class ChatPage extends React.Component {
   initialiseChat() {
@@ -150,9 +151,12 @@ class ChatPage extends React.Component {
       <>
         {!messages && <Loader />}
         {this.state.loading && <Loader />}
-        {messages &&
-          !this.state.loading &&
-          this.renderChatPageContent(messages)}
+        {messages && !this.state.loading && (
+          <>
+            {this.renderChatPageContent(messages)}
+            <ChatPageFooter />
+          </>
+        )}
       </>
     );
   }

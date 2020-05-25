@@ -1,12 +1,12 @@
 import React from "react";
 import Drawer from "@material-ui/core/Drawer";
-import withStyles from "@material-ui/core/styles/withStyles";
 import {
   List,
   ListItem,
   ListItemIcon,
   ListItemText,
   Divider,
+  makeStyles,
 } from "@material-ui/core";
 import MailIcon from "@material-ui/icons/Mail";
 import { NavLink } from "react-router-dom";
@@ -14,7 +14,7 @@ import HomeIcon from "@material-ui/icons/Home";
 import InfoIcon from "@material-ui/icons/Info";
 import ChatIcon from "@material-ui/icons/Chat";
 
-const styles = (theme) => ({
+const useStyles = makeStyles({
   list: {
     width: 250,
   },
@@ -23,67 +23,62 @@ const styles = (theme) => ({
   },
 });
 
-class DrawerComponent extends React.Component {
-  state = {
-    left: false,
-  };
+const DrawerComponent = (props) => {
+  const classes = useStyles();
+  const { isVisible, toggleDrawerHandler } = props;
 
-  render() {
-    const { classes } = this.props;
+  const sideList = (side) => (
+    <div
+      className={classes.list}
+      role="presentation"
+      onClick={toggleDrawerHandler}
+      onKeyDown={toggleDrawerHandler}
+    >
+      <List>
+        <NavLink to="/">
+          <ListItem button>
+            <ListItemIcon>
+              <HomeIcon />
+            </ListItemIcon>
+            <ListItemText primary={"Home"} />
+          </ListItem>
+        </NavLink>
+        <NavLink to="/posts/">
+          <ListItem button>
+            <ListItemIcon>
+              <MailIcon />
+            </ListItemIcon>
+            <ListItemText primary={"Posts"} />
+          </ListItem>
+        </NavLink>
+        <NavLink to="/chat/1">
+          <ListItem button>
+            <ListItemIcon>
+              <ChatIcon />
+            </ListItemIcon>
+            <ListItemText primary={"Test ChatPage"} />
+          </ListItem>
+        </NavLink>
+      </List>
+      <Divider />
+      <List>
+        <NavLink to="/about/">
+          <ListItem button>
+            <ListItemIcon>
+              <InfoIcon />
+            </ListItemIcon>
+            <ListItemText primary={"About"} />
+          </ListItem>
+        </NavLink>
+      </List>
+    </div>
+  );
 
-    const sideList = (side) => (
-      <div
-        className={classes.list}
-        role="presentation"
-        onClick={this.props.toggleDrawerHandler}
-        onKeyDown={this.props.toggleDrawerHandler}
-      >
-        <List>
-          <NavLink to="/">
-            <ListItem button>
-              <ListItemIcon>
-                <HomeIcon />
-              </ListItemIcon>
-              <ListItemText primary={"Home"} />
-            </ListItem>
-          </NavLink>
-          <NavLink to="/posts/">
-            <ListItem button>
-              <ListItemIcon>
-                <MailIcon />
-              </ListItemIcon>
-              <ListItemText primary={"Posts"} />
-            </ListItem>
-          </NavLink>
-          <NavLink to="/chat/1">
-            <ListItem button>
-              <ListItemIcon>
-                <ChatIcon />
-              </ListItemIcon>
-              <ListItemText primary={"Test ChatPage"} />
-            </ListItem>
-          </NavLink>
-        </List>
-        <Divider />
-        <List>
-          <NavLink to="/about/">
-            <ListItem button>
-              <ListItemIcon>
-                <InfoIcon />
-              </ListItemIcon>
-              <ListItemText primary={"About"} />
-            </ListItem>
-          </NavLink>
-        </List>
-      </div>
-    );
+  return (
+    <Drawer open={isVisible} onClose={toggleDrawerHandler}>
+      {sideList("left")}
+    </Drawer>
+  );
+};
 
-    return (
-      <Drawer open={this.props.left} onClose={this.props.toggleDrawerHandler}>
-        {sideList("left")}
-      </Drawer>
-    );
-  }
-}
-
-export default withStyles(styles)(DrawerComponent);
+export default DrawerComponent;

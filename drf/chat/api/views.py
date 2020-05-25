@@ -35,6 +35,12 @@ class ChatListView(ListAPIView):
         queryset = Chat.objects.all()
         username = self.request.query_params.get('username', None)
         chatID = self.request.query_params.get('chatID', None)
+        stayHere = self.request.query_params.get('stayHere', None)
+        if chatID and stayHere:
+            current_chat = get_current_chat(chatID)
+            queryset = [current_chat]
+            print('==== stayHere!!! queryset ==== ', queryset)
+            return queryset
         user = get_object_or_404(User, username=username)
         if username is not None:
             contact = get_user_contact(username)

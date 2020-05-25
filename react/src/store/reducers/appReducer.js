@@ -11,6 +11,7 @@ const initialState = {
   loading: false,
   alert: null,
   chatId: null,
+  participants: null
 }
 
 export const appReducer = (state = initialState, action) => {
@@ -24,9 +25,9 @@ export const appReducer = (state = initialState, action) => {
     case HIDE_ALERT:
       return { ...state, alert: null }
     case SHOW_CHAT:
-      return { ...state, chatId: action.payload }
+      return { ...state, chatId: action.payload.chatId, participants: action.payload.participants }
     case HIDE_CHAT:
-      return { ...state, chatId: null }
+      return { ...state, chatId: null, participants: null }
     default: return state
   }
 }

@@ -1,7 +1,6 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core";
-import { Grid, Typography } from "@material-ui/core";
-import { Paper, Avatar } from "@material-ui/core";
+import { Paper, Avatar, Grid, Typography } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -47,7 +46,7 @@ const Message = (item, i, arr) => {
         <Grid container wrap="nowrap" spacing={2}>
           <Grid item>
             <Avatar
-              alt="Cindy Baker"
+              alt="Avatar"
               src="https://assets.dryicons.com/uploads/icon/svg/5598/cfee5087-8773-4fb3-ac5e-63372d889b1f.svg"
             />
             <Typography>{item.item.author}</Typography>
