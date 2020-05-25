@@ -46,6 +46,9 @@ class ChatListView(ListAPIView):
                 print(" === ADD rel to the private blacklist === ", blacklist)
                 current_chat = get_current_chat(chatID)
                 current_chat.blacklists.add(blacklist.id)
+                current_chat.participants.remove(contact.id)
+                print('Remove from previous chat', current_chat)
+
             chats = Chat.objects.all()
             print('=== Before filter Available chats:', chats)
             q_chats = Chat.objects.annotate(
@@ -62,10 +65,6 @@ class ChatListView(ListAPIView):
                     queryset = target_chat
                     contact = get_user_contact(user)
                     new_chat = get_current_chat(target_chat[0].id)
-                    if chatID:
-                        # Remove from previous chat
-                        current_chat.participants.remove(contact.id)
-                        print('Remove from previous chat', current_chat)
                     new_chat.participants.add(contact.id)
                     return queryset
             else:
