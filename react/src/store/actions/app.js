@@ -7,7 +7,6 @@ import {
   HIDE_CHAT
 } from "./actionTypes";
 import axios from 'axios';
-// import WebSocketInstance from "../../websocket";
 
 export function showLoader() {
   return {
@@ -60,17 +59,14 @@ export function hideChat() {
 export function openChat(username, chatId) {
   return dispatch => {
     dispatch(showLoader())
-    console.log('==== username in OpenFun =====', username)
-    console.log('==== chatId in OpenFun =====', chatId)
     let url = `http://127.0.0.1:8000/chat/?username=${username}`
     if (chatId) {
       url = `http://127.0.0.1:8000/chat/?username=${username}&chatID=${chatId}`
     }
-    console.log('==== url in OpenFun =====', url)
     axios
       .get(url)
       .then((res) => {
-        console.log("====== res.data.id ======= ", res.data[0].id);
+        console.log("=== chatId === ", res.data[0].id);
         const chatId = res.data[0].id
         localStorage.setItem('chatId', chatId);
         dispatch(hideLoader())

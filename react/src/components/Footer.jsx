@@ -33,13 +33,9 @@ const Footer = () => {
 
   const username = useSelector((state) => state.auth.username);
   const token = useSelector((state) => state.auth.token);
-  // const available = useSelector((state) => state.auth.available);
-  // const chatId = useSelector((state) => state.app.chatId);
   const contactId = useSelector((state) => state.app.contactId);
-  // let status = useSelector((state) => state.app.status);
   const [status, setStatus] = useState("busy");
 
-  // TODO HERE OPEN AND CONNECT CHAT
   const handleChange = (e, value) => {
     if (username && value === "available") {
       setStatus(value);

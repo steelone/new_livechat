@@ -118,8 +118,6 @@ class ToolbarComponent extends React.Component {
     const { username, classes, openDrawerHandler } = props;
     const isMenuOpen = Boolean(this.state.anchorEl);
     const isMobileMenuOpen = Boolean(this.state.mobileMoreAnchorEl);
-    console.log("username -------------------- ", username);
-
     const menuId = "primary-search-account-menu";
     const renderMenu = (
       <Menu

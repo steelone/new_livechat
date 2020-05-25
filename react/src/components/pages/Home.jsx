@@ -36,7 +36,6 @@ const Home = () => {
   useEffect(() => {
     if (chatId) {
       WebSocketInstance.disconnect();
-      console.log("Redirect !!! ", `/chat/${chatId}`);
       history.push(`/chat/${chatId}`);
     }
   }, [chatId]);
