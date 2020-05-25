@@ -4,11 +4,9 @@ import WebSocketInstance from "../../websocket";
 import { Grid, Button, TextField } from "@material-ui/core";
 import Message from "../Message";
 import Loader from "../Loader";
-import { closeChat } from "../../store/actions/app";
+import { openChat } from "../../store/actions/app";
 
 class ChatPage extends React.Component {
-  state = { message: "" };
-
   initialiseChat() {
     this.waitForSocketConnection(() => {
       WebSocketInstance.addCallbacks(
@@ -26,16 +24,20 @@ class ChatPage extends React.Component {
   constructor(props) {
     super(props);
     this.initialiseChat();
+    this.state = {
+      message: "",
+      loading: false,
+    };
   }
 
   scrollToBottom = () => {
     this.messagesEnd.scrollIntoView({ behavior: "smooth" });
   };
   componentDidMount() {
-    this.state.messages && this.scrollToBottom();
+    !this.state.loading && this.state.messages && this.scrollToBottom();
   }
   componentDidUpdate() {
-    this.state.messages && this.scrollToBottom();
+    !this.state.loading && this.state.messages && this.scrollToBottom();
   }
   componentWillReceiveProps() {
     this.initialiseChat();
@@ -89,7 +91,11 @@ class ChatPage extends React.Component {
   };
   newChat = () => {
     WebSocketInstance.disconnect();
-    this.props.history.push("/");
+    this.setState({ loading: true });
+    this.props.openChat(this.props.username, this.props.match.params.chatID);
+    setTimeout(() => {
+      this.props.history.push("/");
+    }, 1700);
   };
 
   renderChatPageContent = (messages) => {
@@ -143,7 +149,10 @@ class ChatPage extends React.Component {
     return (
       <>
         {!messages && <Loader />}
-        {messages && this.renderChatPageContent(messages)}
+        {this.state.loading && <Loader />}
+        {messages &&
+          !this.state.loading &&
+          this.renderChatPageContent(messages)}
       </>
     );
   }
@@ -155,4 +164,4 @@ const mapStateToProps = (state) => {
   };
 };
 
-export default connect(mapStateToProps, { closeChat })(ChatPage);
+export default connect(mapStateToProps, { openChat })(ChatPage);

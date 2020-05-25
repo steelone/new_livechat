@@ -30,15 +30,7 @@ const Home = () => {
   useEffect(() => {
     if (username && !chatId) {
       dispatch(openChat(username));
-    } else if (username && chatId) {
-      dispatch(openChat(username, chatId));
-      setTimeout(() => {
-        console.log("Redirect !!! ", `/chat/${chatId}`);
-        history.push(`/chat/${chatId}`);
-        console.log("Redirect Done ", `/chat/${chatId}`);
-      }, 2000);
     }
-    // }, [dispatch, history, username, chatId]);
   }, [dispatch, username]);
 
   useEffect(() => {
@@ -46,7 +38,6 @@ const Home = () => {
       WebSocketInstance.disconnect();
       console.log("Redirect !!! ", `/chat/${chatId}`);
       history.push(`/chat/${chatId}`);
-      console.log("Redirect Done ", `/chat/${chatId}`);
     }
   }, [chatId]);
 

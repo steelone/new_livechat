@@ -11,7 +11,6 @@ User = get_user_model()
 class ChatConsumer(WebsocketConsumer):
 
     def fetch_messages(self, data):
-        print('data =============== ', data)
         messages = get_last_10_messages(data['chatID'])
         content = {
             'command': 'messages',
@@ -26,7 +25,6 @@ class ChatConsumer(WebsocketConsumer):
             content=data['message'])
         current_chat = get_current_chat(data['chatID'])
         current_chat.messages.add(message)
-        current_chat.save()
         content = {
             'command': 'new_message',
             'message': self.message_to_json(message)

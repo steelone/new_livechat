@@ -32,6 +32,9 @@ class BlacklistChat(models.Model):
                                    related_name='blacklist',
                                    )
 
+    def __str__(self):
+        return self.contact.user.username
+
 
 class Chat(models.Model):
     participants = models.ManyToManyField(Contact, related_name='chats')
@@ -44,13 +47,9 @@ class Chat(models.Model):
 
 @receiver(post_save, sender=CustomUser)
 def post_save_user(sender, instance, created, **kwargs):
-    # CREATE CONTACT if it doesn't exist
-    print('___POST_SAVE___')
     contact = Contact.objects.filter(user=instance)
     if not contact:
-        print('==== POST_SAVE contact =====', contact)
         contact = Contact.objects.create(user=instance)
         contact.save()
         blacklist = BlacklistChat.objects.create(contact=contact)
-        print('==== POST_SAVE blacklist =====', blacklist)
         blacklist.save()

@@ -56,9 +56,7 @@ export function hideChat() {
   }
 }
 
-const username = localStorage.getItem('username')
-const token = localStorage.getItem('token')
-// LOGIC: OPEN HIS CHAT OR ADD TO AVAILABLE CHAT
+// LOGIC: OPEN HIS CHAT OR ENTER TO AVAILABLE CHAT
 export function openChat(username, chatId) {
   return dispatch => {
     dispatch(showLoader())
@@ -86,7 +84,6 @@ export function openChat(username, chatId) {
 
 export const closeChat = (username, token) => {
   return dispatch => {
-    // dispatch(WebSocketInstance.disconnect());
     axios.defaults.headers = {
       "Content-Type": "application/json",
       Authorization: `Token ${token}`,

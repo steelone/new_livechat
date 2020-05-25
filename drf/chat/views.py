@@ -28,8 +28,8 @@ class ContactViewSet(viewsets.ModelViewSet):
         return qs
 
     def partial_update(self, request, *args, **kwargs):
-        kwargs['partial'] = True
         print(' ========== partial_update ==========')
+        kwargs['partial'] = True
         user_id = request.user.id
         contact = get_user_contact(request.user.username)
         if request.data == {'available': False}:
@@ -38,7 +38,7 @@ class ContactViewSet(viewsets.ModelViewSet):
                 participants__id=contact.id)
             if chats:
                 for chat in chats:
-                    print(' cleaning chat... = ', chat.id)
+                    print(' cleaning chat... ', chat.id)
                     chat = get_current_chat(chat.id)
                     chat.participants.remove(contact.id)
                     blacklist = BlacklistChat.objects.get(contact=contact.id)
