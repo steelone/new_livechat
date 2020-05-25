@@ -10,6 +10,9 @@ django-filter = "*"
 django-cors-headers = "*"
 channels = "*"
 channels-redis = "*"
+psycopg2 = "*"
+psycopg2-binary = "*"
+python-dotenv = "*"
 
 [dev-packages]
 
