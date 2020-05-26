@@ -27,7 +27,9 @@ class CustomUserSerializer(serializers.HyperlinkedModelSerializer):
         return user
 
 
-class ContactSerializer(serializers.HyperlinkedModelSerializer):
+class ContactSerializer(serializers.ModelSerializer):
+    user = CustomUserSerializer()
+
     class Meta:
         model = Contact
         fields = '__all__'

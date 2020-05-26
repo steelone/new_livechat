@@ -76,31 +76,16 @@ export function openChat(username, chatId, stayHere) {
         const chatId = res.data[0].id
         localStorage.setItem('chatId', chatId);
         res.data[0].participants.forEach((item, i, arr) => {
-          axios
-            .get(`http://127.0.0.1:8000/contacts/${item}/`)
-            .then((res) => {
-              const user = res.data.user
-              axios
-                .get(`${user}`)
-                .then((res) => {
-                  item = {
-                    id: res.data.id,
-                    username: res.data.username,
-                    avatar: res.data.avatar
-                  }
-                  participants.push(item)
-                  if (i === arr.length - 1) {
-                    dispatch(hideLoader())
-                    dispatch(showChat(chatId, participants))
-                  }
-                })
-                .catch((error) => {
-                  console.error(error.message);
-                })
-            })
-            .catch((error) => {
-              console.error(error.message);
-            })
+          item = {
+            id: item.user.id,
+            username: item.user.username,
+            avatar: item.user.avatar
+          }
+          participants.push(item)
+          if (i === arr.length - 1) {
+            dispatch(hideLoader())
+            dispatch(showChat(chatId, participants))
+          }
         })
       })
       .catch((error) => {
