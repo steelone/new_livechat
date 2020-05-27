@@ -10,10 +10,11 @@ const useStyles = makeStyles((theme) => ({
     padding: theme.spacing(2),
   },
 }));
-const Participant = (item, i, arr) => {
+const Participant = (props) => {
+  const { participantName, avatar } = props;
   const classes = useStyles();
   const username = useSelector((state) => state.auth.username);
-  const name = username === item.item.username ? "You" : item.item.username;
+  const name = username === participantName ? "You" : participantName;
   const defaultAvatar =
     "https://assets.dryicons.com/uploads/icon/svg/5598/cfee5087-8773-4fb3-ac5e-63372d889b1f.svg";
   return (
@@ -21,7 +22,7 @@ const Participant = (item, i, arr) => {
       <Paper className={classes.paper}>
         <Grid container spacing={2}>
           <Grid item>
-            <Avatar alt="Avatar" src={defaultAvatar || item.item.avatar} />
+            <Avatar alt="Avatar" src={defaultAvatar || avatar} />
             <Typography>{name}</Typography>
           </Grid>
         </Grid>

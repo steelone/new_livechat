@@ -26,7 +26,7 @@ const ChatPageFooter = () => {
 
   useInterval(() => {
     dispatch(openChat(username, chatId, stayHere));
-  }, 1000 * 10);
+  }, 1000 * 20);
   useEffect(() => {
     if (participants) {
       setLoading(false);
@@ -39,8 +39,12 @@ const ChatPageFooter = () => {
   }, [dispatch, participants]);
 
   function renderParticipants(currentParticipants) {
-    return currentParticipants.map((item, i, arr) => (
-      <Participant key={item.id} item={item} />
+    return currentParticipants.map((item) => (
+      <Participant
+        key={item.id}
+        participantName={item.username}
+        avatar={item.avatar}
+      />
     ));
   }
   const classes = useStyles();

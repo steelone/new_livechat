@@ -81,8 +81,13 @@ class ChatPage extends React.Component {
   };
 
   renderMessages = (messages) => {
-    return messages.map((item, i, arr) => (
-      <Message key={item.id} arr={arr} item={item} />
+    return messages.map((item) => (
+      <Message
+        key={item.id}
+        author={item.author}
+        content={item.content}
+        timestamp={item.timestamp}
+      />
     ));
   };
   keyPress = (e) => {

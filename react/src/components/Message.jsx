@@ -15,7 +15,8 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Message = (item, i, arr) => {
+const Message = (props) => {
+  const { author, content, timestamp } = props;
   const classes = useStyles();
   const renderTimestamp = (timestamp) => {
     let prefix = "";
@@ -49,14 +50,14 @@ const Message = (item, i, arr) => {
               alt="Avatar"
               src="https://assets.dryicons.com/uploads/icon/svg/5598/cfee5087-8773-4fb3-ac5e-63372d889b1f.svg"
             />
-            <Typography>{item.item.author}</Typography>
+            <Typography>{author}</Typography>
           </Grid>
           <Grid item xs={8}>
-            <Typography>{item.item.content}</Typography>
+            <Typography>{content}</Typography>
           </Grid>
         </Grid>
         <Grid className={classes.timeText} item xs={4}>
-          <Typography>{renderTimestamp(item.item.timestamp)}</Typography>
+          <Typography>{renderTimestamp(timestamp)}</Typography>
         </Grid>
       </Paper>
     </>
