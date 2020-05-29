@@ -66,27 +66,23 @@ export function openChat(username, chatId, stayHere) {
     if (chatId) {
       url = `http://127.0.0.1:8000/chat/?username=${username}&chatID=${chatId}`
     }
-    if (stayHere) {
+    if (stayHere && chatId) {
       url = `http://127.0.0.1:8000/chat/?username=${username}&chatID=${chatId}&stayHere=${stayHere}`
     }
-    let participants = []
     axios
       .get(url)
       .then((res) => {
         const chatId = res.data[0].id
         localStorage.setItem('chatId', chatId);
-        res.data[0].participants.forEach((item, i, arr) => {
-          item = {
+        const participants = res.data[0].participants.map((item, i, arr) => {
+          return item = {
             id: item.user.id,
             username: item.user.username,
             avatar: item.user.avatar
           }
-          participants.push(item)
-          if (i === arr.length - 1) {
-            dispatch(hideLoader())
-            dispatch(showChat(chatId, participants))
-          }
         })
+        dispatch(hideLoader())
+        dispatch(showChat(chatId, participants))
       })
       .catch((error) => {
         console.error(error.message);
@@ -105,7 +101,6 @@ export const closeChat = (username, token) => {
     axios
       .get(`http://127.0.0.1:8000/contacts/?username=${username}`)
       .then((res) => {
-        console.log("====== res.data ======= ", res.data[0]);
         contactId = res.data[0].url
         const contactData = {
           available: false

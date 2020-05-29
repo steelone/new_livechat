@@ -35,11 +35,10 @@ class ChatListView(ListAPIView):
         queryset = Chat.objects.all()
         username = self.request.query_params.get('username', None)
         chatID = self.request.query_params.get('chatID', None)
-        stayHere = self.request.query_params.get('stayHere', None)
-        if chatID and stayHere:
+        stay_here = self.request.query_params.get('stayHere', None)
+        if (chatID and stay_here) is not None:
             current_chat = get_current_chat(chatID)
             queryset = [current_chat]
-            print('==== stayHere!!! queryset ==== ', queryset)
             return queryset
         user = get_object_or_404(User, username=username)
         if username is not None:
@@ -47,16 +46,14 @@ class ChatListView(ListAPIView):
             contact.available = True
             contact.save()
             blacklist = BlacklistChat.objects.get(contact=contact.id)
-            if chatID:
+            if chatID is not None:
                 # CASE New chat(I don't want to be in this chat anymore)
-                print(" === ADD rel to the private blacklist === ", blacklist)
                 current_chat = get_current_chat(chatID)
                 current_chat.blacklists.add(blacklist.id)
                 current_chat.participants.remove(contact.id)
                 print('Remove from previous chat', current_chat)
 
             chats = Chat.objects.all()
-            print('=== Before filter Available chats:', chats)
             q_chats = Chat.objects.annotate(
                 Count('participants')
             ).filter(
@@ -64,7 +61,6 @@ class ChatListView(ListAPIView):
             ).exclude(
                 blacklists__id=blacklist.id
             ).order_by('participants__count')
-            print('===! After filter  Available q_chats:', q_chats)
             if q_chats:
                 target_chat = [q_chats.first()]
                 if target_chat:
